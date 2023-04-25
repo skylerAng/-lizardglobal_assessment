@@ -1,4 +1,4 @@
-# Lizard Global React Developer Assessment
+# Lizard Global React Developer Assessment - Skyler Ang
 
 ## Overview
 
