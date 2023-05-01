@@ -1,4 +1,4 @@
-# Lizard Global React Developer Assessment - Skyler Ang
+# Lizard Global React Developer Assessment
 
 ## Overview
 
@@ -56,3 +56,6 @@ If you have time then demonstrating any of the following would be considered as 
 ## Submission
 
 Please submit your completed exercise either by supplying the URL of your forked repository - please ensure you **do not** include the `node_modules` folder.
+
+## Preview
+![image](https://user-images.githubusercontent.com/27018655/235497222-753f67a5-c54a-4a5f-95c8-4a9018025f85.png)
