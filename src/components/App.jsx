@@ -46,10 +46,9 @@ function App() {
               return item.value;
           })
           const filteredData = jsonData.posts.filter((item) => {
-            const match = item.categories.filter(category => {
-              return uniqueCategories.has(category.name) ? true : false
+            return Array.from(uniqueCategories).every((categoryName) => {
+              return item.categories.some((category) => category.name === categoryName);
             });
-            return match.length !== 0;
           });
           setData(filteredData);
 
