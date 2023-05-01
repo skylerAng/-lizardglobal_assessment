@@ -1,0 +1,15 @@
+.AppWrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: flex-start;
+}
+
+.BodyWrapper{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-top: 70px;
+  align-items: center;
+  flex: 1;
+  z-index: 1;
+}

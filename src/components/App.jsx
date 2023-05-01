@@ -1,52 +1,110 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
+import Categories from './categories/Categories';
+import Navbar from "./navbar/Navbar";
+import Home from "../pages/home/Home";
+import Profile from "../pages/profile/Profile";
+import "../styles/style.scss";
+import { useState, useContext, useEffect } from "react";
+import { DarkModeContext } from "../context/darkModeContext";
 
-const App = () => {
+function App() {
   const [data, setData]=useState([]);
-  debugger;
-  const getData = () => {
+  const [visible, setVisible]=useState(5);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+
+  const handleSetVisible = (newValue) => {
+
+    setVisible(newValue);
+  }
+  
+  const handleCategoryChange = (newValue) => {
+
+    // setSelectedCategory(newValue);
+    console.log('argument from MultiSelect: ', newValue);
+    console.log('Saved category: ', selectedCategory);
+  };
+
+  const getData = (filter = null) => {
       //const response = await fetch (`/api/posts`);
       //const data = await response.json();
       fetch('/api/posts')
       .then((response) => response.json())
       .then((jsonData) => {
         console.log(jsonData);
-        debugger;
-        setData(jsonData);
-        debugger;
-        // setPosts(json.posts.slice(0, next));
-        // setOriginalPosts(json.posts);
+        // Filter data based on selected categories
+        if(filter){
+ 
+        }
+      
+        // const filteredData = jsonData.posts.filter((post) =>
+        //   selectedCategory.includes(post.category)
+        // );
+        // setData(jsonData.posts);
+        setData(jsonData.posts);
       })
       .catch((err) => console.log(err));
 
   }
+  const { darkMode } = useContext(DarkModeContext);
+
   useEffect(() => {
     getData();
-   
   }, []);
 
-  return <div>{
-    /* Complete the exercise here. */
-    <div className="App">
+  const Layout = () => {
+    return (
+      <div className={`theme-${darkMode ? "dark" : "light"}`}>
+        <Navbar 
+          selectedCategory={selectedCategory}
+          handleCategoryChange={handleCategoryChange} 
+        />
+        <div style={{ display: "flex" }}>
+       
+          <div style={{ flex: 6 }}>
+            <Outlet />
+          </div>
+   
+        </div>
+      </div>
+    );
+  };
+
+  const router = createBrowserRouter([
     {
-        data ?.length > 0
-        ? (
-            <div className="container">
-                {data.map((item)=>(
-                
-                    <p>{item.about}</p>
-                ))}
-            </div>
-        ) : 
-        (
-            <div className='empty'>
-                <h2>No data found</h2>
-            </div>
-        )
-    }
+      path: "/",
+      element: (
+        <Layout />
+      ),
+      children: [
+        {
+          path: "/",
+          element: <Home 
+            visible={visible} 
+            handleSetVisible={handleSetVisible} 
+            category={selectedCategory}
+            data={data}
+            />,
+        },
+        {
+          path: "/profile/:id",
+          element: <Profile />,
+        },
+      ],
+    },
+  ]);
+
+  return (
+    <div>
+      <RouterProvider router={router} />
     </div>
-  
-  }</div>;
+  );
+
 }
 
 export default App;

@@ -1,0 +1,14 @@
+.posts{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  
+  button {
+    border: none;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    background-color: #5271ff;
+    border-radius: 3px;
+  }
+}

@@ -13,10 +13,13 @@ import './styles/index.css';
 
 // Include application component.
 import App from './components/App';
+import { DarkModeContextProvider } from "./context/darkModeContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <DarkModeContextProvider>
+      <App />
+  </DarkModeContextProvider>
+</React.StrictMode>,
   document.getElementById('root')
 );
