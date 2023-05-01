@@ -17,7 +17,8 @@ function App() {
   const [data, setData]=useState([]);
   const [visible, setVisible]=useState(5);
   const [selectedCategory, setSelectedCategory] = useState([]);
-
+  const uniqueCategories = new Set();
+  
   const handleSetVisible = (newValue) => {
 
     setVisible(newValue);
@@ -25,7 +26,7 @@ function App() {
   
   const handleCategoryChange = (newValue) => {
 
-    // setSelectedCategory(newValue);
+    setSelectedCategory(newValue);
     console.log('argument from MultiSelect: ', newValue);
     console.log('Saved category: ', selectedCategory);
   };
@@ -38,15 +39,29 @@ function App() {
       .then((jsonData) => {
         console.log(jsonData);
         // Filter data based on selected categories
-        if(filter){
- 
+        if(filter.length !== 0){
+          const categoryNames = filter.map((item) => {
+              console.log(item.value);
+              uniqueCategories.add(item.value);
+              return item.value;
+          })
+          const filteredData = jsonData.posts.filter((item) => {
+            const match = item.categories.filter(category => {
+              return uniqueCategories.has(category.name) ? true : false
+            });
+            return match.length !== 0;
+          });
+          setData(filteredData);
+
+        }else{
+          setData(jsonData.posts);
         }
       
         // const filteredData = jsonData.posts.filter((post) =>
         //   selectedCategory.includes(post.category)
         // );
         // setData(jsonData.posts);
-        setData(jsonData.posts);
+    
       })
       .catch((err) => console.log(err));
 
@@ -54,8 +69,8 @@ function App() {
   const { darkMode } = useContext(DarkModeContext);
 
   useEffect(() => {
-    getData();
-  }, []);
+    getData(selectedCategory);
+  }, [selectedCategory]);
 
   const Layout = () => {
     return (

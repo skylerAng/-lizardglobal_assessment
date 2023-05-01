@@ -1,6 +1,6 @@
 import "./multiselect.scss";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import Select, { components } from 'react-select';
 import categories from './Categories';
 
@@ -45,32 +45,11 @@ const customStyles = {
     
     const [hoveredOption, setHoveredOption] = useState(null);
     const [selectedOptions, setSelectedOptions] = useState([]);
-
+    
     const handleOnChange = (selectedOptions) => {
-      setSelectedOptions(selectedOptions);
+      props.handleCategoryChange(selectedOptions);
     };
   
-    useEffect(() => {
-      console.log('Selected options:', selectedOptions);
-      props.handleCategoryChange(selectedOptions);
-    }, [selectedOptions]);
-  
-
-
-  
-
-    // useEffect(() => {
-    
-    //   if (props.handleCategoryChange) {
-    //     debugger;
-    //     props.handleCategoryChange(selectedOptions);
-    //   }
-    // }, [selectedOptions]);
-    // const handleCategoryChange = (selectedOptions) => {
-    //   setSelectedOptions(selectedOptions)
- 
-    //   debugger;
-    // };
   
     const customTheme = (theme) => ({
       ...theme,
@@ -111,6 +90,7 @@ const customStyles = {
         theme={customTheme}
         components={{ Option: CustomOption }}
         onChange={handleOnChange}
+        value={props.selectedCategory}
       />
     );
   };
